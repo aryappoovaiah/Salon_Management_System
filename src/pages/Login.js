@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Auth.css';
 
 function Login() {
   const [formData, setFormData] = useState({ email: '', password: '' });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -10,7 +12,11 @@ function Login() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Placeholder: perform auth here
+    if (formData.email.toLowerCase().includes('admin')) {
+      navigate('/admin');
+      return;
+    }
+    // Placeholder: user login
     console.log('Login:', formData);
   };
 
