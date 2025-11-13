@@ -1,0 +1,356 @@
+/* AdminPOS.css — Soft, light-colored theme (no pure white)
+   Replace your current AdminPOS.css with this file.
+   Uses gentle pastel panels and warm accents for an inviting admin UI.
+*/
+
+/* Palette / variables */
+:root{
+    --page-bg: #f6faf8;           /* very light mint */
+    --panel-bg: #f2f7fb;          /* pale blue */
+    --card-bg: #fbfbfe;           /* near-white but slightly warm (not pure #fff) */
+    --muted: #6b7280;
+    --accent: #0b84ff;            /* blue accent */
+    --accent-600: #0066d6;
+    --accent-200: #e6f0ff;
+    --accent-50: #f2f8ff;
+    --secondary: #6ee7b7;         /* soft mint/green */
+    --secondary-50: #f2fff8;
+    --danger: #ef4444;
+    --success: #16a34a;
+    --glass: rgba(255,255,255,0.6);
+    --radius: 12px;
+    --shadow-lg: 0 12px 36px rgba(9, 30, 66, 0.08);
+    --shadow-sm: 0 6px 18px rgba(9, 30, 66, 0.04);
+    --border-soft: 1px solid rgba(9,30,66,0.06);
+    --max-panel-width: 420px;
+    --text: #0b1220;
+  }
+  
+  /* Base reset */
+  * { box-sizing: border-box; }
+  html,body,#root { height:100%; }
+  body{
+    margin:0;
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background: linear-gradient(180deg, var(--page-bg), #ffffff00 70%);
+    color: var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    padding: 22px;
+  }
+  
+  /* Page title */
+  .page-title{
+    margin: 0 0 14px 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #07203a;
+    letter-spacing: -0.2px;
+  }
+  
+  /* Layout grid - left column slightly wider, payments panel fixed width */
+  .pos-grid {
+    display: grid;
+    grid-template-columns: minmax(620px, 1fr) var(--max-panel-width);
+    gap: 18px;
+    align-items: start;
+    width: 100%;
+  }
+  
+  /* Card look (no pure white) */
+  .card {
+    background: linear-gradient(180deg, var(--card-bg), #f9fbff);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow-lg);
+    border: var(--border-soft);
+  }
+  
+  /* Panel header */
+  .panel-head {
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:12px;
+    margin-bottom:8px;
+  }
+  .panel-head h2 { margin:0; font-size:16px; font-weight:700; color:#042235; }
+  
+  /* Buttons */
+  .btn {
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:10px;
+    border:none;
+    cursor:pointer;
+    font-weight:600;
+    transition: transform .12s ease, box-shadow .12s ease;
+    background: linear-gradient(180deg, var(--accent), var(--accent-600));
+    color: #ffffff;
+    box-shadow: 0 8px 24px rgba(11,132,255,0.12);
+  }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 30px rgba(11,132,255,0.14); }
+  .btn:active { transform: translateY(-1px); }
+  
+  .btn.outline {
+    background: transparent;
+    color: var(--accent-600);
+    border: 1px solid rgba(11,132,255,0.12);
+    box-shadow: none;
+  }
+  .btn.ghost {
+    background: linear-gradient(180deg, var(--accent-50), #ffffff00);
+    color: #2b3947;
+    border: 1px solid rgba(15,23,42,0.04);
+  }
+  .btn.small { padding:6px 8px; font-size:13px; border-radius:8px; }
+  .btn.danger { background: linear-gradient(180deg,#ff897f,#ef4444); box-shadow:none; }
+  
+  /* Checkout panel styles */
+  .pos-panel { padding:16px; background: linear-gradient(180deg,var(--panel-bg), #f7fbff); border-radius:14px; }
+  .customer-row { display:flex; gap:10px; margin-bottom:10px; align-items:center; }
+  .customer-row input {
+    flex:1; padding:10px 12px; border-radius:10px; border:1px solid rgba(9,30,66,0.04);
+    background: linear-gradient(180deg,#fffefc, #fbfdff);
+    color: var(--text);
+    outline:none;
+  }
+  .customer-row input::placeholder { color: #9aa5b1; }
+  .customer-row input:focus { box-shadow: 0 8px 20px rgba(11,132,255,0.06); border-color: rgba(11,132,255,0.12); }
+  
+  /* Service selection */
+  .service-select-row { display:flex; gap:10px; align-items:center; margin-bottom:10px; }
+  .service-select-row select {
+    flex:1; padding:10px 12px; border-radius:10px; border:1px solid rgba(9,30,66,0.04); background: linear-gradient(180deg,#fffefc,#fbfdff);
+  }
+  
+  /* Quick service buttons — pastel chips */
+  .service-quick-list { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px; }
+  .quick-btn {
+    display:flex; flex-direction:column; align-items:flex-start; justify-content:center;
+    gap:3px; padding:8px 10px; border-radius:14px; cursor:pointer;
+    background: linear-gradient(180deg,#fffaf7,#fffefc);
+    border: 1px solid rgba(9,30,66,0.03);
+    box-shadow: var(--shadow-sm);
+    min-width:140px;
+    transition: transform .12s ease, box-shadow .12s ease;
+  }
+  .quick-btn:hover { transform: translateY(-3px); box-shadow: 0 10px 24px rgba(9,30,66,0.06); }
+  .qb-name { font-weight:700; font-size:13px; color:#062033; }
+  .qb-price { font-size:12px; color:var(--muted); }
+  
+  /* Cart table: subtle pastel headers, no pure white */
+  .cart-table { margin-top:6px; overflow:auto; border-radius:8px; background: linear-gradient(180deg,#fbfdff,#fcfeff); border: 1px solid rgba(9,30,66,0.02); }
+  .cart-table table { width:100%; border-collapse:collapse; min-width:640px; }
+  .cart-table th, .cart-table td {
+    padding:10px 8px; text-align:left; border-bottom:1px solid rgba(9,30,66,0.03); font-size:14px; vertical-align:middle;
+  }
+  .cart-table th {
+    background: linear-gradient(180deg,#f2f8ff,#eef7ff);
+    color: #25406a; font-weight:800; font-size:12px; text-transform:uppercase; letter-spacing:0.6px;
+  }
+  .td-right { text-align:right; }
+  .cart-table input[type=number]{ width:84px; padding:6px; border-radius:8px; border:1px solid rgba(9,30,66,0.04); background: #fffefc; }
+  
+  /* Empty cart message */
+  .cart-table .muted { padding:26px; color:var(--muted); font-size:14px; text-align:center; }
+  
+  /* Pricing blocks: soft panels */
+  .pricing-row {
+    display:grid;
+    grid-template-columns: 1fr 220px 220px 180px;
+    gap:12px;
+    margin-top:12px;
+    align-items:end;
+  }
+  .pricing-block { background: linear-gradient(180deg,#fcfffb,#f6fff5); padding:10px; border-radius:10px; border:1px solid rgba(34,197,94,0.06); }
+  .pricing-block label { display:block; font-size:13px; color:var(--muted); margin-bottom:6px; }
+  .pricing-block .value { font-weight:800; font-size:16px; color:#053047; }
+  .pricing-block input { width:100%; padding:8px; border-radius:8px; border:1px solid rgba(9,30,66,0.04); background: linear-gradient(180deg,#fffefc,#fbfdff); }
+  
+  /* Emphasised total panel with warm tint */
+  .total-block { display:flex; flex-direction:column; gap:6px; align-items:flex-end; justify-content:center; background: linear-gradient(180deg,#fff7f6,#fff3f2); border:1px solid rgba(239,68,68,0.04); }
+  
+  /* Checkout actions */
+  .checkout-actions { display:flex; gap:10px; margin-top:14px; }
+  
+  /* Payments panel - pastel background, sticky and scrollable */
+  .payments-panel {
+    width: var(--max-panel-width);
+    max-width: 100%;
+    position: sticky;
+    top: 22px;
+    height: calc(100vh - 60px);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    overflow:hidden;
+  }
+  .payments-panel .card { padding:12px; height:100%; display:flex; flex-direction:column; gap:12px; background: linear-gradient(180deg,#fffaf7,#fffdfc); border-radius:12px; }
+  
+  /* Payments controls (search/filter) */
+  .payments-controls { display:flex; gap:8px; align-items:center; }
+  .payments-controls input, .payments-controls select { padding:8px 10px; border-radius:8px; border:1px solid rgba(9,30,66,0.04); background: linear-gradient(180deg,#fffefc,#fbfdff); }
+  .date-filters { display:flex; gap:6px; margin-left:auto; }
+  
+  /* Payments list area scrolls independently with soft bg */
+  .payments-list {
+    overflow:auto;
+    padding:12px;
+    border-radius:10px;
+    background: linear-gradient(180deg,#fbfefe,#f7fffb);
+    border: 1px solid rgba(9,30,66,0.02);
+    box-shadow: var(--shadow-sm);
+    flex:1;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  
+  /* --- FIXED PAYMENT ITEM ALIGNMENT --- */
+  
+  .payment-item {
+    display: flex;
+    flex-wrap: wrap; /* allow items to wrap neatly */
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 12px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, #fbfefe, #f9fbff);
+    border: 1px solid rgba(9, 30, 66, 0.03);
+    box-shadow: 0 4px 10px rgba(9, 30, 66, 0.03);
+    transition: transform 0.12s ease, box-shadow 0.12s ease;
+  }
+  
+  .payment-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(9, 30, 66, 0.08);
+  }
+  
+  /* Left section: name, ID, date */
+  .p-left {
+    flex: 1 1 160px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    min-width: 140px;
+  }
+  
+  .p-title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px;
+    font-weight: 700;
+    color: #041b33;
+  }
+  
+  .p-title .id {
+    color: var(--muted);
+    font-size: 12px;
+    font-weight: 400;
+  }
+  
+  /* Center section: amount + status badge in a row */
+  .p-center {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    min-width: 100px;
+  }
+  
+  .p-amount {
+    font-weight: 800;
+    font-size: 16px;
+    color: #042235;
+    white-space: nowrap;
+  }
+  
+  /* Badge spacing + style */
+  .badge {
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: capitalize;
+    line-height: 1.4;
+  }
+  
+  .badge.paid {
+    background: rgba(16, 185, 129, 0.14);
+    color: var(--success);
+  }
+  
+  .badge.refunded {
+    background: rgba(239, 68, 68, 0.08);
+    color: var(--danger);
+  }
+  
+  .badge.unpaid {
+    background: rgba(249, 115, 22, 0.08);
+    color: #f97316;
+  }
+  
+  /* Right section: buttons neatly aligned */
+  .p-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    align-items: center;
+    justify-content: flex-end;
+    min-width: 180px;
+  }
+  
+  .p-actions .btn.small {
+    padding: 6px 10px;
+    font-size: 13px;
+    border-radius: 8px;
+  }
+  
+  /* Responsive fix: stack gracefully */
+  @media (max-width: 550px) {
+    .payment-item {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    .p-center, .p-actions {
+      width: 100%;
+      justify-content: flex-start;
+    }
+  }
+  /* Receipt overlay - warm translucent background */
+  .receipt-overlay {
+    position: fixed; inset: 0; background: linear-gradient(90deg, rgba(9,30,66,0.32), rgba(255,255,255,0.02));
+    display:flex; align-items:center; justify-content:center; z-index:80;
+  }
+  .receipt-card { min-width:320px; max-width:420px; border-radius:14px; padding:14px; background: linear-gradient(180deg,#fffaf7,#fffdfc); }
+  
+  /* Toast */
+  .toast { position: fixed; bottom:20px; right:20px; background: linear-gradient(90deg,var(--accent-200),var(--accent)); color:#042235; padding:10px 14px; border-radius:10px; box-shadow:var(--shadow-lg); z-index:90; }
+  .toast.error { background: linear-gradient(90deg,#ffd6d6,#ff9b9b); color:#3b0f0f; }
+  
+  /* Utilities */
+  input:focus, select:focus, button:focus { outline: none; box-shadow: 0 8px 20px rgba(11,132,255,0.06); }
+  :focus { outline: 3px solid rgba(11,132,255,0.08); outline-offset: 2px; }
+  
+  /* Responsive adjustments */
+  @media (max-width: 1100px) {
+    .pos-grid { grid-template-columns: 1fr 360px; }
+    .pricing-row { grid-template-columns: 1fr 160px 160px 140px; }
+  }
+  @media (max-width: 880px) {
+    body { padding:14px; }
+    .pos-grid { grid-template-columns: 1fr; }
+    .payments-panel { position:relative; top:0; height:auto; width:100%; }
+    .payments-list { max-height: 300px; }
+    .pricing-row { grid-template-columns: 1fr 1fr; }
+    .cart-table table { min-width:100%; }
+  }
+  

@@ -9,9 +9,9 @@ import Signup from './pages/Signup';
 import AdminLayout from './admin/AdminLayout';
 import AdminDashboard from './admin/pages/Dashboard';
 import AdminServices from './admin/pages/Services';
-import AdminAppointments from './admin/pages/Appointments';
+import AdminAppointments from './admin/pages/AdminAppointments';
 import AdminClients from './admin/pages/Clients';
-import AdminPOS from './admin/pages/POS';
+import AdminPOS from './admin/pages/AdminPOS';
 import AdminInventory from './admin/pages/Inventory';
 import './App.css';
 
