@@ -1,5 +1,7 @@
+// src/pages/BookAppointment.js
 import React, { useState } from 'react';
 import { services, timeSlots } from '../data/salonData';
+import { supabase } from '../supabaseClient'; // ensure this file exists at src/supabaseClient.js
 import './BookAppointment.css';
 
 function BookAppointment() {
@@ -14,43 +16,133 @@ function BookAppointment() {
   });
 
   const [submitted, setSubmitted] = useState(false);
+  const [busy, setBusy] = useState(false);
+  const [statusMsg, setStatusMsg] = useState(null); // {type:'ok'|'error'|'info', text: string}
 
   const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  // Quick DB test helper to fetch last 5 rows (useful to verify client works)
+  const testFetch = async () => {
+    setStatusMsg({ type: 'info', text: 'Testing DB connectivity...' });
+    try {
+      const { data, error } = await supabase
+        .from('appointments')
+        .select('*')
+        .order('created_at', { ascending: false })
+        .limit(5);
+
+      if (error) {
+        console.error('testFetch error', error);
+        setStatusMsg({ type: 'error', text: 'Test fetch failed: ' + error.message });
+        return;
+      }
+      console.log('testFetch rows:', data);
+      setStatusMsg({ type: 'ok', text: `Test fetch OK — ${data.length} row(s) returned (check console).` });
+    } catch (err) {
+      console.error('testFetch unexpected', err);
+      setStatusMsg({ type: 'error', text: 'Unexpected test error: ' + (err.message || err) });
+    }
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // In a real app, this would send data to a backend
-    console.log('Appointment booked:', formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        service: '',
-        date: '',
-        time: '',
-        notes: ''
-      });
-    }, 3000);
+    setStatusMsg(null);
+
+    // simple validation
+    if (!formData.name || !formData.email || !formData.service || !formData.date || !formData.time) {
+      setStatusMsg({ type: 'error', text: 'Please fill required fields.' });
+      return;
+    }
+
+    setBusy(true);
+    setStatusMsg({ type: 'info', text: 'Saving appointment...' });
+
+    try {
+      const dateTimeISO = new Date(`${formData.date}T${formData.time}:00`).toISOString();
+
+      const payload = {
+        customer_name: formData.name,
+        customer_email: formData.email,
+        phone: formData.phone || null,
+        service: formData.service,
+        date_time: dateTimeISO,
+        price: (services.find(s => s.id === formData.service)?.price) ?? 0,
+        status: 'booked',
+        notes: formData.notes || null
+      };
+
+      // Insert and return inserted row(s)
+      const { data, error } = await supabase
+        .from('appointments')
+        .insert([payload])
+        .select('*');
+
+      if (error) {
+        console.error('Insert error', error);
+        // Show helpful message to user
+        setStatusMsg({ type: 'error', text: 'Failed to save: ' + (error?.message || error) });
+        setBusy(false);
+        return;
+      }
+
+      // Success: data contains inserted rows (usually 1)
+      console.info('Insert success', data);
+      setStatusMsg({ type: 'ok', text: 'Appointment saved successfully.' });
+
+      // Preserve your original UI behavior
+      setSubmitted(true);
+      setTimeout(() => {
+        setSubmitted(false);
+        setFormData({
+          name: '',
+          email: '',
+          phone: '',
+          service: '',
+          date: '',
+          time: '',
+          notes: ''
+        });
+        setStatusMsg(null);
+      }, 2200);
+    } catch (err) {
+      console.error('Unexpected save error', err);
+      setStatusMsg({ type: 'error', text: 'Unexpected error: ' + (err?.message || String(err)) });
+    } finally {
+      setBusy(false);
+    }
   };
 
   const today = new Date().toISOString().split('T')[0];
 
   return (
     <div className="book-appointment">
-      <div className="booking-header">
-        <h1>Book Your Appointment</h1>
-        <p>Fill out the form below to schedule your visit</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <div className="booking-header">
+          <h1>Book Your Appointment</h1>
+          <p>Fill out the form below to schedule your visit</p>
+        </div>
+
+        <div style={{ textAlign: 'right' }}>
+          <button type="button" onClick={testFetch} style={{ marginBottom: 8 }}>Test DB</button>
+          <div style={{ fontSize: 12, color: '#666' }}>Use "Test DB" to verify connectivity.</div>
+        </div>
       </div>
 
       <div className="booking-container">
+        {statusMsg && (
+          <div style={{
+            marginBottom: 10,
+            padding: 10,
+            borderRadius: 6,
+            background: statusMsg.type === 'error' ? '#ffe6e6' : statusMsg.type === 'info' ? '#eef2ff' : '#e6ffef',
+            color: '#111'
+          }}>
+            {statusMsg.text}
+          </div>
+        )}
+
         {submitted ? (
           <div className="success-message">
             <div className="success-icon">✓</div>
@@ -109,7 +201,7 @@ function BookAppointment() {
               >
                 <option value="">Choose a service</option>
                 {services.map(service => (
-                  <option key={service.id} value={service.name}>
+                  <option key={service.id} value={service.id}>
                     {service.name} - {service.price}
                   </option>
                 ))}
@@ -161,8 +253,8 @@ function BookAppointment() {
               />
             </div>
 
-            <button type="submit" className="submit-button">
-              Book Appointment
+            <button type="submit" className="submit-button" disabled={busy}>
+              {busy ? 'Saving...' : 'Book Appointment'}
             </button>
           </form>
         )}
@@ -172,4 +264,3 @@ function BookAppointment() {
 }
 
 export default BookAppointment;
-
