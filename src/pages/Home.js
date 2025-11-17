@@ -56,67 +56,67 @@ function Home() {
         <div className="container">
           <h2 className="section-title">Your Palace of Beauty</h2>
           <div className="services-grid">
-            <div className="service-showcase-card">
+            <Link to="/services?category=hair" className="service-showcase-card">
               <div className="service-image">
-                <img 
-                  src="https://www.bubblesindia.com/wp-content/uploads/2019/03/Bubbles_Services_Banner_Mens_Grooming.jpg" 
-                  alt="Hair styling service" 
+                <img
+                  src="https://www.bubblesindia.com/wp-content/uploads/2019/03/Bubbles_Services_Banner_Mens_Grooming.jpg"
+                  alt="Hair styling service"
                 />
               </div>
               <div className="service-info">
                 <h3>Hair</h3>
                 <p>
-                  Hair stylists at Cut and Colors believe that beauty is different for every person 
-                  which is why they do not mass produce but tailor-make a look, keeping in mind 
+                  Hair stylists at Cut and Colors believe that beauty is different for every person
+                  which is why they do not mass produce but tailor-make a look, keeping in mind
                   an individual's features when conceiving their cut and colour.
                 </p>
               </div>
-            </div>
-            <div className="service-showcase-card">
+            </Link>
+            <Link to="/services?category=cosmetology" className="service-showcase-card">
               <div className="service-image">
-                <img 
-                  src="https://charmssalon.in/wp-content/uploads/2024/09/beautician-with-brush-applies-white-moisturizing-mask-face-young-girl-client-spa-beauty-salon-scaled.jpg" 
-                  alt="Cosmetology facial treatment" 
+                <img
+                  src="https://charmssalon.in/wp-content/uploads/2024/09/beautician-with-brush-applies-white-moisturizing-mask-face-young-girl-client-spa-beauty-salon-scaled.jpg"
+                  alt="Cosmetology facial treatment"
                 />
               </div>
               <div className="service-info">
                 <h3>Cosmetology</h3>
                 <p>
-                  Your path to radiant skin starts here with top-notch, advanced cosmetology services 
+                  Your path to radiant skin starts here with top-notch, advanced cosmetology services
                   especially customised for you at Cut and Colors.
                 </p>
               </div>
-            </div>
-            <div className="service-showcase-card">
+            </Link>
+            <Link to="/services?category=makeup" className="service-showcase-card">
               <div className="service-image">
-                <img 
-                  src="https://5.imimg.com/data5/MB/GI/GLADMIN-59832824/party-makeup-service.png" 
-                  alt="Makeup service" 
+                <img
+                  src="https://5.imimg.com/data5/MB/GI/GLADMIN-59832824/party-makeup-service.png"
+                  alt="Makeup service"
                 />
               </div>
               <div className="service-info">
                 <h3>Make-Up</h3>
                 <p>
-                  Step into the spotlight with makeup services at Cut and Colors that highlights 
+                  Step into the spotlight with makeup services at Cut and Colors that highlights
                   your unique style.
                 </p>
               </div>
-            </div>
-            <div className="service-showcase-card">
+            </Link>
+            <Link to="/services?category=nails" className="service-showcase-card">
               <div className="service-image">
-                <img 
-                  src="https://casaderma.in/wp-content/uploads/2024/02/7769-1-1024x768.jpg" 
-                  alt="Nail care service" 
+                <img
+                  src="https://casaderma.in/wp-content/uploads/2024/02/7769-1-1024x768.jpg"
+                  alt="Nail care service"
                 />
               </div>
               <div className="service-info">
                 <h3>Nails</h3>
                 <p>
-                  Nail Goals? We've got you covered! Our expert team of nail technicians is all 
+                  Nail Goals? We've got you covered! Our expert team of nail technicians is all
                   about precision & creating masterpieces with every stroke.
                 </p>
               </div>
-            </div>
+            </Link>
           </div>
         </div>
       </section>

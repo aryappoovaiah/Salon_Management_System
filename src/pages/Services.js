@@ -1,10 +1,24 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import ServiceCard from '../components/ServiceCard';
-import { services } from '../data/salonData';
+import { serviceCategories } from '../data/salonData';
 import './Services.css';
 
 function Services() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const categoryFromUrl = queryParams.get('category');
+
+  const [activeCategory, setActiveCategory] = useState(categoryFromUrl || 'hair');
+
+  useEffect(() => {
+    if (categoryFromUrl) {
+      setActiveCategory(categoryFromUrl);
+    }
+  }, [categoryFromUrl]);
+
+  const currentCategory = serviceCategories.find(cat => cat.id === activeCategory);
+
   return (
     <div className="services-page">
       <div className="services-header">
@@ -13,11 +27,36 @@ function Services() {
       </div>
 
       <div className="services-container">
-        <div className="services-grid">
-          {services.map(service => (
-            <ServiceCard key={service.id} service={service} />
+        <div className="category-nav">
+          {serviceCategories.map(category => (
+            <button
+              key={category.id}
+              className={`category-btn ${activeCategory === category.id ? 'active' : ''}`}
+              onClick={() => setActiveCategory(category.id)}
+            >
+              {category.name}
+            </button>
           ))}
         </div>
+
+        {currentCategory && (
+          <>
+            <div className="category-header">
+              <img
+                src={currentCategory.image}
+                alt={currentCategory.name}
+                className="category-image"
+              />
+              <h2>{currentCategory.name}</h2>
+            </div>
+
+            <div className="services-grid">
+              {currentCategory.services.map(service => (
+                <ServiceCard key={service.id} service={service} />
+              ))}
+            </div>
+          </>
+        )}
       </div>
 
       <div className="services-cta">
