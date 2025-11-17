@@ -5,7 +5,6 @@ import Home from './pages/Home';
 import Services from './pages/Services';
 import BookAppointment from './pages/BookAppointment';
 import Login from './pages/Login';
-import Signup from './pages/Signup';
 import AdminLayout from './admin/AdminLayout';
 import AdminDashboard from './admin/pages/Dashboard';
 import AdminServices from './admin/pages/Services';
@@ -26,7 +25,7 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/book" element={<BookAppointment />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/signup" element={<Signup />} />
+           
 
             <Route path="/admin" element={<AdminLayout />}> 
               <Route index element={<AdminDashboard />} />
