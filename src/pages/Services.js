@@ -1,15 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
-import ServiceCard from '../components/ServiceCard';
-import { serviceCategories } from '../data/salonData';
-import './Services.css';
+import React, { useState, useEffect } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+
+import ServiceCard from "../components/ServiceCard";
+import { serviceCategories } from "../data/salonData";
+import "./Services.css";
 
 function Services() {
   const location = useLocation();
-  const queryParams = new URLSearchParams(location.search);
-  const categoryFromUrl = queryParams.get('category');
+  const navigate = useNavigate();
 
-  const [activeCategory, setActiveCategory] = useState(categoryFromUrl || 'hair');
+  const queryParams = new URLSearchParams(location.search);
+  const categoryFromUrl = queryParams.get("category");
+
+  const [activeCategory, setActiveCategory] = useState(
+    categoryFromUrl || "hair"
+  );
 
   useEffect(() => {
     if (categoryFromUrl) {
@@ -17,7 +22,15 @@ function Services() {
     }
   }, [categoryFromUrl]);
 
-  const currentCategory = serviceCategories.find(cat => cat.id === activeCategory);
+  const currentCategory = serviceCategories.find(
+    (cat) => cat.id === activeCategory
+  );
+
+  const handleServiceClick = (service) => {
+    navigate("/book", {
+      state: { selectedService: service.name, selectedPrice: service.price },
+    });
+  };
 
   return (
     <div className="services-page">
@@ -27,11 +40,14 @@ function Services() {
       </div>
 
       <div className="services-container">
+        {/* Category Navigation */}
         <div className="category-nav">
-          {serviceCategories.map(category => (
+          {serviceCategories.map((category) => (
             <button
               key={category.id}
-              className={`category-btn ${activeCategory === category.id ? 'active' : ''}`}
+              className={`category-btn ${
+                activeCategory === category.id ? "active" : ""
+              }`}
               onClick={() => setActiveCategory(category.id)}
             >
               {category.name}
@@ -39,6 +55,7 @@ function Services() {
           ))}
         </div>
 
+        {/* Current Category */}
         {currentCategory && (
           <>
             <div className="category-header">
@@ -51,22 +68,30 @@ function Services() {
             </div>
 
             <div className="services-grid">
-              {currentCategory.services.map(service => (
-                <ServiceCard key={service.id} service={service} />
+              {currentCategory.services.map((service) => (
+                <div
+                  key={service.id}
+                  onClick={() => handleServiceClick(service)}
+                  style={{ cursor: "pointer" }}
+                >
+                <ServiceCard service={service} />
+                </div>
               ))}
             </div>
           </>
         )}
       </div>
 
+      {/* Call to Action */}
       <div className="services-cta">
         <h2>Ready to Book?</h2>
         <p>Select a service and schedule your appointment today</p>
-        <Link to="/book" className="cta-button">Book Appointment</Link>
+        <Link to="/book" className="cta-button">
+          Book Appointment
+        </Link>
       </div>
     </div>
   );
 }
 
 export default Services;
-

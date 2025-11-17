@@ -57,7 +57,7 @@ export const serviceCategories = [
         description: 'Long-lasting gel nails with UV finish',
         price: '₹1099',
         duration: '50 min',
-        image: 'https://media.istockphoto.com/id/1339520880/photo/beauty-salon-treatment-procedure-girl-in-beauty-salon.jpg?s=612x612&w=0&k=20&c=WkGk6K7QjuXRXhRq3VnbhVVlYmKqx3K5q0vP1QBNqpw='
+        image: 'https://ellementco.com/cdn/shop/articles/Screenshot_2024-08-09_235447.png?v=1723227906'
       }
     ]
   },
@@ -80,7 +80,7 @@ export const serviceCategories = [
         description: 'Intensive hydration treatment for dry skin',
         price: '₹2299',
         duration: '60 min',
-        image: 'https://media.istockphoto.com/id/1310266215/photo/beautiful-girl-getting-spa-treatment-facial-with-moisturizing-cream.jpg?s=612x612&w=0&k=20&c=sKyHglZvqcYBR5XLqxjQKhKqZw2mZgAbCa9e0DkGfho='
+        image: 'https://pureandsimple.ca/cdn/shop/products/Pure_Simple-Super-Hydrating-Facial-1000px.jpg?v=1600444895&width=2560'
       },
       {
         id: 9,
@@ -88,7 +88,7 @@ export const serviceCategories = [
         description: 'Advanced chemical peel for skin renewal',
         price: '₹3499',
         duration: '90 min',
-        image: 'https://media.istockphoto.com/id/1348521852/photo/skin-care-procedure-beauty-face-treatment-during-spa-salon-procedure.jpg?s=612x612&w=0&k=20&c=6bLSZ1R-LrXIqLzLWMJOZD4hJLjNX8rF3LlwPdxW0OU='
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFlCS7d6NHiXXxzOJiSYD2GqIyVMLs3jVE3Q&s'
       },
       {
         id: 10,
@@ -96,7 +96,7 @@ export const serviceCategories = [
         description: 'Specialized treatment for mature skin',
         price: '₹2799',
         duration: '75 min',
-        image: 'https://media.istockphoto.com/id/1286206615/photo/senior-women-applying-anti-aging-face-cream.jpg?s=612x612&w=0&k=20&c=KvPBMfBSLrXUK_xN6_fNBTl2VsV5zMFwI0I8-pMIDbw='
+        image: 'https://lotus-professional.com/cdn/shop/files/MARMALADE-FACIAL.webp?v=1664367002'
       }
     ]
   },
@@ -111,7 +111,7 @@ export const serviceCategories = [
         description: 'Professional makeup for parties and events',
         price: '₹1499',
         duration: '60 min',
-        image: 'https://media.istockphoto.com/id/1357117342/photo/beautiful-girl-with-bright-makeup.jpg?s=612x612&w=0&k=20&c=2lj3Zq-YbVf1bWOSRqP5yKgXz0gBnUfM5qqZl4aPzxY='
+        image: 'https://deoriaparlour.live/wp-content/uploads/2025/08/Best-Party-Makeup-in-Deoria-768x1024.webp'
       },
       {
         id: 12,
@@ -119,7 +119,7 @@ export const serviceCategories = [
         description: 'Luxurious bridal makeup with extended wear',
         price: '₹5999',
         duration: '120 min',
-        image: 'https://media.istockphoto.com/id/1291357849/photo/beautiful-bride-with-professional-makeup-for-the-wedding.jpg?s=612x612&w=0&k=20&c=LpR9u6xqvCvX_c_sBPiG3Uc5YZnb3hTmMx8N-XwZ0Fo='
+        image: 'https://sumansalon.in/wp-content/uploads/2024/03/626200c4-9adc-41ce-b064-fda94af3bafd.jpg'
       },
       {
         id: 13,
@@ -127,7 +127,7 @@ export const serviceCategories = [
         description: 'Trendy smokey eye makeup for any occasion',
         price: '₹999',
         duration: '45 min',
-        image: 'https://media.istockphoto.com/id/1272903193/photo/beautiful-girl-with-dark-smoky-eyes-makeup-closeup.jpg?s=612x612&w=0&k=20&c=kfZLm0DYbZ6KwCKX_V0aH6HjVm4eMH0EhG-NVS2VPWU='
+        image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTOFnMYaSN1xvPnNiw5nYM8eSobUlbHe62TAw&s'
       },
       {
         id: 14,
@@ -135,7 +135,7 @@ export const serviceCategories = [
         description: 'High-definition makeup perfect for photography',
         price: '₹2499',
         duration: '90 min',
-        image: 'https://media.istockphoto.com/id/1187079627/photo/professional-make-up-artist-makeup-the-actors-face.jpg?s=612x612&w=0&k=20&c=P5HFlCG2mSkKdplZs5WqLFqAYLvYFgPCGBjVXlhgwu4='
+        image: 'https://cdn.zyrosite.com/cdn-cgi/image/format=auto,w=600,fit=scale-down/cdn-ecommerce/store_01HKDR33EAA3B4N0SVD5TDAWDC%2Fassets%2F1710595517355-63.jpg'
       }
     ]
   }
@@ -197,4 +197,3 @@ export const timeSlots = [
   '12:00 PM', '12:30 PM', '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM',
   '3:00 PM', '3:30 PM', '4:00 PM', '4:30 PM', '5:00 PM', '5:30 PM'
 ];
-
