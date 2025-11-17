@@ -1,6 +1,6 @@
 // src/pages/Login.js
 import React, { useEffect, useState } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { supabase } from '../supabaseClient'
 import './Auth.css'
 
@@ -9,16 +9,12 @@ export default function Login() {
   const [msg, setMsg] = useState('')
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
-  const location = useLocation()
 
   // Default Admin Credentials
   const ADMIN_EMAIL = 'admin@example.com'
   const ADMIN_PASSWORD = '123456'
 
-  // Already logged in? Go to Home
   useEffect(() => {
-    if (location?.state?.info) setMsg(location.state.info)
-
     let mounted = true
     supabase.auth.getSession().then(({ data }) => {
       if (!mounted) return
@@ -33,7 +29,7 @@ export default function Login() {
       mounted = false
       subscription?.unsubscribe()
     }
-  }, [navigate, location])
+  }, [navigate])
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }))

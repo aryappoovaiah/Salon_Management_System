@@ -25,7 +25,10 @@ function App() {
             <Route path="/services" element={<Services />} />
             <Route path="/book" element={<BookAppointment />} />
             <Route path="/login" element={<Login />} />
+<<<<<<< HEAD
            
+=======
+>>>>>>> 52294a9f99cc64a47bd3f4d76ed15cce7452a893
 
             <Route path="/admin" element={<AdminLayout />}> 
               <Route index element={<AdminDashboard />} />
