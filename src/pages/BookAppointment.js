@@ -1,16 +1,20 @@
 // src/pages/BookAppointment.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { services, timeSlots } from '../data/salonData';
 import { supabase } from '../supabaseClient'; // ensure this file exists at src/supabaseClient.js
 import './BookAppointment.css';
 
 function BookAppointment() {
+  const location = useLocation();
+  const today = new Date().toISOString().split('T')[0];
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     service: '',
-    date: '',
+    date: today,
     time: '',
     notes: ''
   });
@@ -18,6 +22,15 @@ function BookAppointment() {
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [statusMsg, setStatusMsg] = useState(null); // {type:'ok'|'error'|'info', text: string}
+
+  useEffect(() => {
+    if (location.state?.selectedService) {
+      const service = services.find(s => s.name === location.state.selectedService);
+      if (service) {
+        setFormData(prev => ({ ...prev, service: service.id }));
+      }
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -100,7 +113,7 @@ function BookAppointment() {
           email: '',
           phone: '',
           service: '',
-          date: '',
+          date: today,
           time: '',
           notes: ''
         });
@@ -113,8 +126,6 @@ function BookAppointment() {
       setBusy(false);
     }
   };
-
-  const today = new Date().toISOString().split('T')[0];
 
   return (
     <div className="book-appointment">
