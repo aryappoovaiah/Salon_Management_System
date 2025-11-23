@@ -1,7 +1,7 @@
 // src/pages/BookAppointment.js
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { serviceCategories, timeSlots } from '../data/salonData';
+import { timeSlots } from '../data/salonData';
 import { supabase } from '../supabaseClient';
 import './BookAppointment.css';
 
@@ -19,19 +19,37 @@ function BookAppointment() {
     notes: ''
   });
 
-  const allServices = serviceCategories.flatMap(category => category.services);
+  const [allServices, setAllServices] = useState([]);
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [statusMsg, setStatusMsg] = useState(null); // {type:'ok'|'error'|'info', text: string}
 
   useEffect(() => {
-    if (location.state?.selectedService) {
+    fetchServices();
+  }, []);
+
+  useEffect(() => {
+    if (location.state?.selectedService && allServices.length > 0) {
       const service = allServices.find(s => s.name === location.state.selectedService);
       if (service) {
-        setFormData(prev => ({ ...prev, service: service.id }));
+        setFormData(prev => ({ ...prev, service: String(service.id) }));
       }
     }
   }, [location.state, allServices]);
+
+  const fetchServices = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .order('category', { ascending: true });
+
+      if (error) throw error;
+      setAllServices(data || []);
+    } catch (err) {
+      console.error('Error fetching services:', err);
+    }
+  };
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -75,15 +93,15 @@ function BookAppointment() {
 
     try {
       const dateTimeISO = new Date(`${formData.date}T${formData.time}:00`).toISOString();
-      const selectedService = allServices.find(s => s.id === Number(formData.service));
+      const selectedService = allServices.find(s => String(s.id) === String(formData.service));
 
       const payload = {
         customer_name: formData.name,
         customer_email: formData.email || null,
         phone: formData.phone,
-        service: formData.service,
+        service: selectedService?.name || formData.service,
         date_time: dateTimeISO,
-        price: selectedService?.price ?? 0,
+        price: parseFloat(selectedService?.price?.replace(/[^\d.]/g, '') || 0),
         status: 'booked',
         notes: formData.notes || null
       };
@@ -211,11 +229,20 @@ function BookAppointment() {
                 required
               >
                 <option value="">Choose a service</option>
-                {allServices.map(service => (
-                  <option key={service.id} value={service.id}>
-                    {service.name} - {service.price}
-                  </option>
-                ))}
+                {['hair', 'nails', 'cosmetology', 'makeup'].map(category => {
+                  const categoryServices = allServices.filter(s => s.category === category);
+                  if (categoryServices.length === 0) return null;
+                  const categoryNames = { hair: 'Hair', nails: 'Nails', cosmetology: 'Cosmetology', makeup: 'Make-Up' };
+                  return (
+                    <optgroup key={category} label={categoryNames[category]}>
+                      {categoryServices.map(service => (
+                        <option key={service.id} value={service.id}>
+                          {service.name} - {service.price}
+                        </option>
+                      ))}
+                    </optgroup>
+                  );
+                })}
               </select>
             </div>
 

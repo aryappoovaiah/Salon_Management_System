@@ -10,7 +10,8 @@ function Services() {
     name: '',
     description: '',
     price: '',
-    duration: ''
+    duration: '',
+    category: 'hair'
   });
   const [statusMsg, setStatusMsg] = useState(null);
   const realtimeSubRef = useRef(null);
@@ -90,6 +91,7 @@ function Services() {
           description: newService.description || 'New service',
           price: newService.price || '₹0',
           duration: newService.duration || '30 min',
+          category: newService.category || 'hair',
           image: ''
         }])
         .select();
@@ -97,7 +99,7 @@ function Services() {
       if (error) throw error;
 
       setServices([...services, ...data]);
-      setNewService({ name: '', description: '', price: '', duration: '' });
+      setNewService({ name: '', description: '', price: '', duration: '', category: 'hair' });
       setStatusMsg({ type: 'ok', text: 'Service added successfully' });
     } catch (err) {
       console.error('Error adding service:', err);
@@ -166,6 +168,20 @@ function Services() {
               }
             />
 
+            <select
+              className="input"
+              value={newService.category}
+              onChange={(e) =>
+                setNewService({ ...newService, category: e.target.value })
+              }
+              required
+            >
+              <option value="hair">Hair</option>
+              <option value="nails">Nails</option>
+              <option value="cosmetology">Cosmetology</option>
+              <option value="makeup">Make-Up</option>
+            </select>
+
             <input
               className="input"
               placeholder="Duration (e.g. 45 min)"
@@ -205,9 +221,10 @@ function Services() {
                   <th style={{width: '60px'}}>ID</th>
                   <th>Name</th>
                   <th>Description</th>
-                  <th style={{width: '140px'}}>Price</th>
-                  <th style={{width: '120px'}}>Duration</th>
-                  <th style={{width: '120px'}}>Actions</th>
+                  <th style={{width: '140px'}}>Category</th>
+                  <th style={{width: '120px'}}>Price</th>
+                  <th style={{width: '100px'}}>Duration</th>
+                  <th style={{width: '100px'}}>Actions</th>
                 </tr>
               </thead>
               <tbody>
@@ -217,22 +234,34 @@ function Services() {
                     <td>{s.name}</td>
                     <td>{s.description}</td>
                     <td>
-                      <input 
-                        className="input" 
-                        value={s.price} 
-                        onChange={e => handleInlineChange(s.id, 'price', e.target.value)} 
+                      <select
+                        className="input"
+                        value={s.category || 'hair'}
+                        onChange={e => handleInlineChange(s.id, 'category', e.target.value)}
+                      >
+                        <option value="hair">Hair</option>
+                        <option value="nails">Nails</option>
+                        <option value="cosmetology">Cosmetology</option>
+                        <option value="makeup">Make-Up</option>
+                      </select>
+                    </td>
+                    <td>
+                      <input
+                        className="input"
+                        value={s.price}
+                        onChange={e => handleInlineChange(s.id, 'price', e.target.value)}
                       />
                     </td>
                     <td>
-                      <input 
-                        className="input" 
-                        value={s.duration} 
-                        onChange={e => handleInlineChange(s.id, 'duration', e.target.value)} 
+                      <input
+                        className="input"
+                        value={s.duration}
+                        onChange={e => handleInlineChange(s.id, 'duration', e.target.value)}
                       />
                     </td>
                     <td>
-                      <button 
-                        className="btn secondary" 
+                      <button
+                        className="btn secondary"
                         onClick={() => removeService(s.id)}
                       >
                         Delete
@@ -240,10 +269,10 @@ function Services() {
                     </td>
                   </tr>
                 ))}
-                
+
                 {services.length === 0 && (
                   <tr>
-                    <td colSpan="6" style={{textAlign: 'center'}}>
+                    <td colSpan="7" style={{textAlign: 'center'}}>
                       No services found.
                     </td>
                   </tr>
