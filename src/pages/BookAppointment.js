@@ -1,12 +1,8 @@
 // src/pages/BookAppointment.js
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-<<<<<<< HEAD
 import { serviceCategories, timeSlots } from '../data/salonData';
-=======
-import { services, timeSlots } from '../data/salonData';
->>>>>>> ead3d2f62a7a0189f05eb1fca4a46129fb0e7f4d
-import { supabase } from '../supabaseClient'; // ensure this file exists at src/supabaseClient.js
+import { supabase } from '../supabaseClient';
 import './BookAppointment.css';
 
 function BookAppointment() {
@@ -24,24 +20,18 @@ function BookAppointment() {
   });
 
   const allServices = serviceCategories.flatMap(category => category.services);
-
-
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [statusMsg, setStatusMsg] = useState(null); // {type:'ok'|'error'|'info', text: string}
 
   useEffect(() => {
     if (location.state?.selectedService) {
-<<<<<<< HEAD
       const service = allServices.find(s => s.name === location.state.selectedService);
-=======
-      const service = services.find(s => s.name === location.state.selectedService);
->>>>>>> ead3d2f62a7a0189f05eb1fca4a46129fb0e7f4d
       if (service) {
         setFormData(prev => ({ ...prev, service: service.id }));
       }
     }
-  }, [location.state]);
+  }, [location.state, allServices]);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -75,7 +65,7 @@ function BookAppointment() {
     setStatusMsg(null);
 
     // simple validation
-    if (!formData.name || !formData.email || !formData.service || !formData.date || !formData.time) {
+    if (!formData.name || !formData.phone || !formData.service || !formData.date || !formData.time) {
       setStatusMsg({ type: 'error', text: 'Please fill required fields.' });
       return;
     }
@@ -85,15 +75,15 @@ function BookAppointment() {
 
     try {
       const dateTimeISO = new Date(`${formData.date}T${formData.time}:00`).toISOString();
+      const selectedService = allServices.find(s => s.id === Number(formData.service));
 
       const payload = {
         customer_name: formData.name,
-        customer_email: formData.email,
-        phone: formData.phone || null,
+        customer_email: formData.email || null,
+        phone: formData.phone,
         service: formData.service,
         date_time: dateTimeISO,
-        price: (allServices.find(s => s.id === Number(formData.service))?.price) ?? 0,
-
+        price: selectedService?.price ?? 0,
         status: 'booked',
         notes: formData.notes || null
       };
@@ -106,7 +96,6 @@ function BookAppointment() {
 
       if (error) {
         console.error('Insert error', error);
-        // Show helpful message to user
         setStatusMsg({ type: 'error', text: 'Failed to save: ' + (error?.message || error) });
         setBusy(false);
         return;
@@ -201,14 +190,13 @@ function BookAppointment() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">Email Address(Optional) </label>
+              <label htmlFor="email">Email Address (Optional)</label>
               <input
                 type="email"
                 id="email"
                 name="email"
                 value={formData.email}
                 onChange={handleChange}
-                required
                 placeholder="Enter your email"
               />
             </div>
