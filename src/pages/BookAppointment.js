@@ -1,7 +1,11 @@
 // src/pages/BookAppointment.js
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+<<<<<<< HEAD
 import { serviceCategories, timeSlots } from '../data/salonData';
+=======
+import { services, timeSlots } from '../data/salonData';
+>>>>>>> ead3d2f62a7a0189f05eb1fca4a46129fb0e7f4d
 import { supabase } from '../supabaseClient'; // ensure this file exists at src/supabaseClient.js
 import './BookAppointment.css';
 
@@ -28,7 +32,11 @@ function BookAppointment() {
 
   useEffect(() => {
     if (location.state?.selectedService) {
+<<<<<<< HEAD
       const service = allServices.find(s => s.name === location.state.selectedService);
+=======
+      const service = services.find(s => s.name === location.state.selectedService);
+>>>>>>> ead3d2f62a7a0189f05eb1fca4a46129fb0e7f4d
       if (service) {
         setFormData(prev => ({ ...prev, service: service.id }));
       }
