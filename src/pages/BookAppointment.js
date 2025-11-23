@@ -1,23 +1,39 @@
 // src/pages/BookAppointment.js
-import React, { useState } from 'react';
-import { services, timeSlots } from '../data/salonData';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { serviceCategories, timeSlots } from '../data/salonData';
 import { supabase } from '../supabaseClient'; // ensure this file exists at src/supabaseClient.js
 import './BookAppointment.css';
 
 function BookAppointment() {
+  const location = useLocation();
+  const today = new Date().toISOString().split('T')[0];
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     phone: '',
     service: '',
-    date: '',
+    date: today,
     time: '',
     notes: ''
   });
 
+  const allServices = serviceCategories.flatMap(category => category.services);
+
+
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [statusMsg, setStatusMsg] = useState(null); // {type:'ok'|'error'|'info', text: string}
+
+  useEffect(() => {
+    if (location.state?.selectedService) {
+      const service = allServices.find(s => s.name === location.state.selectedService);
+      if (service) {
+        setFormData(prev => ({ ...prev, service: service.id }));
+      }
+    }
+  }, [location.state]);
 
   const handleChange = (e) => {
     setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
@@ -68,7 +84,8 @@ function BookAppointment() {
         phone: formData.phone || null,
         service: formData.service,
         date_time: dateTimeISO,
-        price: (services.find(s => s.id === formData.service)?.price) ?? 0,
+        price: (allServices.find(s => s.id === Number(formData.service))?.price) ?? 0,
+
         status: 'booked',
         notes: formData.notes || null
       };
@@ -100,7 +117,7 @@ function BookAppointment() {
           email: '',
           phone: '',
           service: '',
-          date: '',
+          date: today,
           time: '',
           notes: ''
         });
@@ -113,8 +130,6 @@ function BookAppointment() {
       setBusy(false);
     }
   };
-
-  const today = new Date().toISOString().split('T')[0];
 
   return (
     <div className="book-appointment">
@@ -165,19 +180,6 @@ function BookAppointment() {
             </div>
 
             <div className="form-group">
-              <label htmlFor="email">Email Address *</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                placeholder="Enter your email"
-              />
-            </div>
-
-            <div className="form-group">
               <label htmlFor="phone">Phone Number *</label>
               <input
                 type="tel"
@@ -191,6 +193,19 @@ function BookAppointment() {
             </div>
 
             <div className="form-group">
+              <label htmlFor="email">Email Address(Optional) </label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                required
+                placeholder="Enter your email"
+              />
+            </div>
+
+            <div className="form-group">
               <label htmlFor="service">Select Service *</label>
               <select
                 id="service"
@@ -200,7 +215,7 @@ function BookAppointment() {
                 required
               >
                 <option value="">Choose a service</option>
-                {services.map(service => (
+                {allServices.map(service => (
                   <option key={service.id} value={service.id}>
                     {service.name} - {service.price}
                   </option>
